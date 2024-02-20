@@ -53,23 +53,7 @@ def create_conf_aster_file(data_file):
 
 
 
-# def check_aster_file():
-#     folder_path = './aster_file/'  # указать путь к папке, в которой нужно провести проверку
-#     prefix = 'Avaya4_'  # префикс имени файла
 
-#     file_exists = False
-
-#     for file_name in os.listdir(folder_path):
-#         if file_name.startswith(prefix):
-#             file_exists = True
-#             break
-
-#     if file_exists:
-#         print("Файл с префиксом 'Avaya4 python' найден в папке")
-#     else:
-#         print("Файл с префиксом 'Avaya4 python' не найден в папке")
-
-#     return file_exists
 
 
 
@@ -102,15 +86,6 @@ def check_aster_file():
 
 
 
-# def move_aster_file(file):
-#     import shutil
-
-#     file_path = f'./output/{file}'  # указать путь к исходному файлу
-#     destination_folder = './aster_file/'  # указать путь к папке Python, в которую нужно переместить файл
-
-#     shutil.move(file_path, destination_folder)
-
-
 
 
 def move_aster_file(file):
@@ -119,8 +94,6 @@ def move_aster_file(file):
     source_file = f"C:\mong_th_2\output\{file}"  # Путь к исходному файлу на Windows
     destination_dir = f"/var/opt/call_avaya4/{file}"  # Путь к целевой директории на Linux
 
-    # source_audio = f"C:\mong_th_2\{audio}"
-    # destination_dir_audio = f"/var/opt/call_avaya_audio/{audio}"
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -132,21 +105,6 @@ def move_aster_file(file):
     sftp.close()
 
 
-    # if audio == 'Государственная услуга по государственному кадастровому учету недвижимого имущества и (или) государственной регистрации прав на недвижимое имущество и сделок с ним':
-
-    #     command_audio_2 = f"chown asterisk:asterisk /var/opt/call_avaya_audio/ros/4/msg4.wav"
-    #     ssh.exec_command(command_audio_2)
-    #     command_audio_4 = f"mv /var/opt/call_avaya_audio/ros/4/msg4.wav /var/lib/asterisk/sounds/ru/custom && chmod 664 /var/lib/asterisk/sounds/ru/custom/msg4.wav"
-    #     ssh.exec_command(command_audio_4)
-    # else:
-    #     command_audio_2 = f"chown asterisk:asterisk /var/opt/call_avaya_audio/vse/4/msg4.wav"
-    #     ssh.exec_command(command_audio_2)
-    #     command_audio_4 = f"mv /var/opt/call_avaya_audio/vse/4/msg4.wav /var/lib/asterisk/sounds/ru/custom && chmod 664 /var/lib/asterisk/sounds/ru/custom/msg4.wav"
-    #     ssh.exec_command(command_audio_4)
-
-
-    # time.sleep(2)
-
     command = f"chmod -R 777 /var/opt/call_avaya4"
     ssh.exec_command(command)
     command_4 = f"chown asterisk:asterisk /var/opt/call_avaya4/{file}"
@@ -157,24 +115,8 @@ def move_aster_file(file):
     
     
     ssh.close()
-    # os.remove(source_file)
 
 
-
-# def send_file_sftp(file):
-#     source_file = f"D:\mong\output\{file}"  # Путь к исходному файлу на Windows
-#     destination_dir = f"/var/spool/asterisk/outgoing/{file}"  # Путь к целевой директории на Linux
-
-#     ssh = paramiko.SSHClient()
-#     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-#     ssh.connect("192.168.134.250", username="root", password="porcupine3")  # Подключение к серверу Linux
-    
-#     sftp = ssh.open_sftp()
-#     print("Соединение")
-#     sftp.put(source_file, destination_dir)  # Копирование файла с Windows на Linux
-    
-#     sftp.close()
-#     ssh.close()
     
 
 def update_log(line):
@@ -247,13 +189,10 @@ def start():
         yesterday = now - datetime.timedelta(days=1)
 
         # # Устанавливаем время на 9 часов вечера
-        # yesterday_9pm = datetime.datetime(yesterday.year, yesterday.month, yesterday.day, 12, 0, 0)
 
 
 
         i = 0 
-        # desired_date = datetime(2023, 10, 24, 0, 5, 58, 762)
-        # Получаем только готовые к выдачи, статус - звонок, дата с 9 вечера вчера и по сейчас 
         
         for value in coll.find({'message': 'Результат оказания услуги готов к выдаче', 'type.code': 'call',  'dateCreation': { '$gt' : target_date },      "$and": [ { "appeal.subservice": { "$ne": "Регистрация, подтверждение, восстановление и удаление УЗ в ЕСИА (универсальная)" } }, { "appeal.subservice": { "$ne": "Информирование физических лиц о налоговой задолженности и выдача платежных документов" } }, { "appeal.subservice": { "$ne": "Получение в МФЦ результата оказания услуги от ЕПГУ" } }, { "appeal.subservice": { "$ne": "Информирование застрахованных лиц о состоянии их индивидуальных лицевых счетов в системе обязательного пенсионного страхования согласно федеральным законам «Об индивидуальном (персонифицированном) учете в системе обязательного пенсионного страхования» и «Об инвестировании средств для финансирования накопительной пенсии в Российской Федерации»" }},
         { "appeal.subservice": { "$ne": "Предоставление сведений о трудовой деятельности зарегистрированного лица, содержащихся в его индивидуальном лицевом счете" } }, { "appeal.subservice": { "$ne": "Информирование граждан об отнесении к категории граждан предпенсионного возраста"} }, { "appeal.subservice": { "$ne": "Предоставление информации по находящимся на исполнении исполнительным производствам в отношении физического и юридического лица"} }, { "appeal.subservice": { "$ne": "Прием заявлений для размещения сведений о транспортном средстве, управляемом инвалидом, или транспортном средстве, перевозящем инвалида и (или) ребенка-инвалида, в федеральной государственной информационной системе \"Федеральный реестр инвалидов\""} },  { "appeal.subservice": { "$ne": "Предоставление физическим лицом отказа от сбора и размещения биометрических персональных данных в целях проведения идентификации и (или) аутентификации, отзыва такого отказа"} } ] }):
@@ -298,12 +237,6 @@ def start():
 
                                 else:
                                     
-                                    # tel_appeal = sql_request.sql_init.get_by_tel_orders(value['person']['mobile'])
-                                    # if tel_appeal != []:
-                                    #     pass
-                                    # orders_tel_today_array = orders_tel_today
-                                    # for el in orders_tel_today_array:
-                                    #     el 
                                     date_string_t_several = str(value['dateCreation'])
                                     date_creation_t_several = date_string_t_several.split("T")[0]
                                     get_orders_tel_subservice_one_day = sql_request.sql_init.get_orders_tel_subservice_one_day(value['person']['mobile'], date_creation_t_several, value['appeal']['subservice'])
@@ -338,8 +271,6 @@ def start():
 
                                         # Запрашиваем только что добавленную запись
                                         result = sql_request.sql_init.get_by_id_orders(value['guid'])
-                                        # create_time = datetime.datetime.strptime(result[0][8],'%Y-%m-%d')
-                                        # target_date_2 = datetime.datetime.strptime('2023-12-18','%Y-%m-%d')
                                         # Проверяем есть ли вызов по этому ордеру в данный момент
                                         if result[0][13] == 1:
                                             pass
@@ -445,8 +376,6 @@ def start():
 
                                     # Запрашиваем только что добавленную запись
                                     result = sql_request.sql_init.get_by_id_orders(value['guid'])
-                                    # create_time = datetime.datetime.strptime(result[0][8],'%Y-%m-%d')
-                                    # target_date_2 = datetime.datetime.strptime('2023-12-18','%Y-%m-%d')
                                     # Проверяем есть ли вызов по этому ордеру в данный момент
                                     if result[0][13] == 1:
                                         pass
@@ -646,90 +575,6 @@ def start():
                                         else:
                                             sql_request.sql_init.update_repeated_this_day(orders_tel_dubly[0][1], value['guid'])
                                             pass
-                    # Если есть запись по заялению, то проверяем статус звонка
-                    # elif result != []:
-                    #     update_log(f"{datetime.datetime.now()} - Есть запись о деле id - {result[0][2]}")
-                    #     print("Есть запись")
-                    #     if result[0][14] == 1:
-                    #         update_log(f"{datetime.datetime.now()} - Пропуск т.к. оповещен - {result[0][2]}")
-                    #         pass
-                    #     elif result[0][6] == '+7(914) 492 30 49':
-                    #         pass
-                    #     else:
-                    #         # Если статус звонка - 2, дозвонился, то пропускаем
-                    #         if result[0][14] == 1:
-                    #             pass
-                    #         # Если статус - 1, занят, то проверяем когда звонил крайний раз
-                    #         elif result[0][10] == '1' or result[0][10] == '0' or result[0][14] == 0:
-                    #             now_t = datetime.datetime.now()
-                    #             # start_time = datetime.datetime(2022, 1, 1)
-                    #             # Разница во времени между текущей датой и заданным временем
-                    #             start_time_t = datetime.datetime.strptime(result[0][9], "%Y-%m-%d %H:%M:%S")
-                    #             time_difference_t = now_t - start_time_t
-                    #             if time_difference_t.total_seconds() > 172800:
-                    #                 print("Прошло более 2 дней")
-                    #                 sql_request.sql_init.update_notified_call_by_id(result[0][2], 1)
-                    #                 update_log(f"{datetime.datetime.now()} - Пропуск т.к. Прошло более 3 дней, ставим статус оповещен - {result[0][2]}")
-                    #                 # pass
-                    #             else:
-                    #             # if result[0][14] == '0':
-                    #             #     update_log(f"{datetime.datetime.now()} - Статус - 0 - {result[0][2]}")
-                    #             # update_log(f"{datetime.datetime.now()} - Проверяем прошлый звонок... - {result[0][2]}")
-                    #                 time_now = datetime.datetime.now()
-                    #                 # Вычисляем разницу между текущей и заданной датой
-                    #                 date_object = datetime.datetime.strptime(result[0][12], "%Y-%m-%d %H:%M:%S")
-                    #                 difference = time_now - date_object
-                    #                 # Проверяем разницу с текущей датой
-                    #                 print(difference.total_seconds())
-                    #                 if difference.total_seconds() > 84600:
-                    #                     update_log(f"{datetime.datetime.now()} - Прошло больше суток с момента крайнего звонка, звоним... - {result[0][2]}")
-                    #                     print("Прошло более суток ...")
-                    #                     if check_aster_file() == True:
-                    #                         while check_aster_file() == True:
-                    #                             time.sleep(20)
-                    #                     # Передаем файл в папку asteriska
-                    #                     move_aster_file(f'Avaya4_{result[0][1]}')
-                    #                     # Спим 20 сек
-                    #                     time.sleep(55)
-                    #                     # end_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    #                     time_now_s = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    #                     # Получение времени втечении 2 мин
-                    #                     # start_time = end_time - timedelta(minutes=2)
-                    #                     # Преобразуем телефон для запроса в базу asteriska 
-                    #                     tel = str(result[0][6]).replace("(", "").replace(")", "").replace("+", "").replace(" ", "")
-                    #                     tel = "8" + tel[1:]
-                    #                     tel = tel.strip()
-                    #                     # Если за крайние 2 минуты, нет статуса по номеру телефона текущего дела, то пока нет статуса спать 4 секунды
-                    #                     if sql_asterisk.sql_init.get_call_by_mobile(tel) == []:
-                    #                         while sql_asterisk.sql_init.get_call_by_mobile(tel) == []:
-                    #                             update_log(f"{datetime.datetime.now()} - Ждем статуса звонка... Аварийно! - {result[0][2]}")
-                    #                             time.sleep(4)
-                    #                     else:
-                    #                         # Проверяем был ли звонок втечении крайних 2 мин по номеру телефона
-                    #                         if sql_asterisk.sql_init.get_call_by_mobile(tel) != []:
-                    #                             sql_request.sql_init.update_last_call_by_id(result[0][2], time_now_s)
-                    #                             # Если есть, то проверяем статус крайнего статуса по этому номеру телефона
-                    #                             update_log(f"{datetime.datetime.now()} - Ставим статус звонка. - {result[0][2]}")
-                    #                             if sql_asterisk.sql_init.get_last_call_status_by_mobile(tel)[0][11] == 'ANSWERED':
-                    #                                 sql_request.sql_init.update_call_status_by_id(result[0][2], 2)
-                    #                                 if int(sql_asterisk.sql_init.get_last_call_status_by_mobile(tel)[0][10]) > 7:
-                    #                                     sql_request.sql_init.update_notified_call_by_id(result[0][2], 1)
-                    #                                 else:
-                    #                                     sql_request.sql_init.update_notified_call_by_id(result[0][2], 0)
-                    #                             elif sql_asterisk.sql_init.get_last_call_status_by_mobile(tel)[0][11] == 'BUSY':
-                    #                                     sql_request.sql_init.update_call_status_by_id(result[0][2], 1)
-                    #                             elif sql_asterisk.sql_init.get_last_call_status_by_mobile(tel)[0][11] == 'NO ANSWER':
-                    #                                 if sql_asterisk.sql_init.get_last_call_status_by_mobile_if_notanw(tel) != []:
-                    #                                     sql_request.sql_init.update_call_status_by_id(result[0][2], 2)
-                    #                                     sql_request.sql_init.update_notified_call_by_id(result[0][2], 1)
-                    #                                 else:
-                    #                                     sql_request.sql_init.update_call_status_by_id(result[0][2], 0)
-                    #                         update_log(f"{datetime.datetime.now()} - Статус получен. {result[0][2]}")
-                    #                         time.sleep(40)
-                                        
-                    #                 elif difference.total_seconds() < 84600:
-                    #                     update_log(f"{datetime.datetime.now()} - Не прошло суток с момента крайнего звонка по делу - {result[0][2]}")
-                    #                     pass
                                 
                 except ValueError as e:
                     update_log(f"{datetime.datetime.now()} - Аварийный пропуск заявления, ошибка - {e}")
@@ -743,10 +588,6 @@ def start():
             
     else:
          print("Нерабочее время")
-        #     if value['message'] == "Результат оказания услуги готов к выдаче":
-
-
-
 
 
 
