@@ -285,77 +285,7 @@ class MySQL():
         except Error as e:
             print(e)
 
-    # def get_by_id_orders(self, appeal_id):
-    #     connect = self.connect()
-    #     sql = f"SELECT * FROM status_statement WHERE appeal_id='{appeal_id}'"
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         result = cursor.fetchall()
-    #         for row in result:
-    #             print(row)
-    #         return result
-    #     except Error as e:
-    #         print(e)
-
-            
 
 
-                
-        
 
-
-    
-
-        
-
-
-    
-    # def show_table(self):
-    #     connect = self.connect()
-    #     sql = f"DESCRIBE checks"
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         result = cursor.fetchall()
-    #         for row in result:
-    #             print(row)
-    #         return result
-    #     except Error as e:
-    #         print(e)
-
-    # def set_data_check(self, numder_check, date_operation, code_operation, fio, email, name_usluga, sum_operation, state_check, error_state_check, error_check):
-    #     connect = self.connect()
-    #     sql = f"INSERT INTO checks(numder_check, date_send_check, date_operation, code_operation, fio, email, name_usluga, sum_operation, state_check, error_state_check, error_check) VALUES ({numder_check}, NOW(), {date_operation}, '{code_operation}', '{fio}', '{email}', '{name_usluga}', '{sum_operation}', {state_check}, {error_state_check}, '{error_check}')"
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         connect.commit()
-    #         connect.close()
-    #     except Error as e:
-    #         print(e)
-
-    # def clear_table(self):
-    #     connect = self.connect()
-    #     sql = f"TRUNCATE TABLE checks"
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         connect.commit()
-    #         connect.close()
-    #     except Error as e:
-    #         print(e)
-
-    # def clear_id(self):
-    #     connect = self.connect()
-    #     sql = f"ALTER TABLE checks AUTO_INCREMENT = 1"
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         connect.commit()
-    #         connect.close()
-    #     except Error as e:
-    #         print(e)
-
-
-sql_init = MySQL("192.168.137.88", "mfc_caller", "root-mfc", "Suit1234") 
+sql_init = MySQL("192.168.4.4", "r", ", "") 
