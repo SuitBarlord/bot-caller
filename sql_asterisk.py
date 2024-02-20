@@ -56,51 +56,6 @@ class MySQL():
             print(e)
 
 
-    # ////
-
-    # def get_first_call_status_by_mobile(self, mobile):
-    #     connect = self.connect()
-    #     # sql = f"SELECT * FROM cdr WHERE dst = '{mobile}' ORDER BY calldate ASC LIMIT 1;"
-    #     sql = f"SELECT * FROM cdr WHERE calldate >= NOW() - INTERVAL 20 DAY AND dst = '{mobile}' ORDER BY calldate DESC LIMIT 1;"
-        
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         result = cursor.fetchall()
-    #         # for row in result:
-    #             # print(row)
-    #         return result
-    #     except Error as e:
-    #         print(e)
-
-
-    # def get_last_10min_call_by_mobile(self, mobile, start_time, end_time):
-    #     connect = self.connect()
-    #     sql = f"SELECT COUNT(*) FROM cdr WHERE dst = '{mobile}' AND calldate BETWEEN {start_time} AND {end_time};"
-        
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         result = cursor.fetchall()
-    #         # for row in result:
-    #             # print(row)
-    #         return result
-    #     except Error as e:
-    #         print(e)
-
-    
-    # def get_last_moment_call_by_mobile(self, mobile):
-    #     connect = self.connect()
-    #     sql = f"SELECT * FROM cdr WHERE dst = '{mobile}' ORDER BY calldate DESC LIMIT 1;"
-    #     cursor = connect.cursor()
-    #     try:
-    #         cursor.execute(sql)
-    #         result = cursor.fetchall()
-    #         # for row in result:
-    #             # print(row)
-    #         return result
-    #     except Error as e:
-    #         print(e)
 
     def get_last_call_status_by_mobile(self, mobile):
         connect = self.connect()
@@ -140,4 +95,4 @@ class MySQL():
     
 
 
-sql_init = MySQL("192.168.134.250", "asteriskcdrdb", "freepbxuser", "om7rIY278Vno") 
+sql_init = MySQL("192.168.4.4", "", "", "") 
