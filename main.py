@@ -62,7 +62,7 @@ def create_conf_aster_file(data_file):
 def check_aster_file():
                 ssh = paramiko.SSHClient()
                 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-                ssh.connect("192.168.134.250", username="root", password="porcupine3") 
+                ssh.connect("", username="root", password="") 
                 command = "ls /var/spool/asterisk/outgoing/"
 
                 # Выполнение команды на удаленном сервере
